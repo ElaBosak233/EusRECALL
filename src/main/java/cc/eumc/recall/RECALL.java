@@ -105,12 +105,12 @@ public final class RECALL extends JavaPlugin {
                         if(money >= cost){
                             econ.withdrawPlayer(p,cost);
                             loc.put(p,p.getLocation()); //记录玩家名、坐标
-                            Bukkit.broadcastMessage("§9§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getPlayer().getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getPlayer().getName() + " " + "§9§lto accept!");
+                            Bukkit.broadcastMessage("§9§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§9§lto accept!");
                             sender.sendMessage("§9§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+loc+"§9§l Please wait for your friend~");
                             done = Calendar.MINUTE; //输入指令并运行的时间
                             int now1 = Calendar.MINUTE;
                             int need1 = Math.abs(now1 - done);
-                            if(need1 > 1){
+                            if(need1 >= 1){
                                 loc.remove(p);
                             }
                             return true;
@@ -146,14 +146,14 @@ public final class RECALL extends JavaPlugin {
                                 return false;
                             }else{
                                 Location back = p.getLocation();
-                                p.sendTitle("§e§lTeleporting...","§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
+                                p.sendMessage("§e§lTeleporting"+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
                                 p.teleport(loc.get(target));
                                 Location now = p.getLocation();
                                 if(back != now){
-                                    p.sendTitle("§e§lSucceed!","§e§lJoin your friend!");
+                                    p.sendMessage("§e§lSucceed!"+"§e§lJoin your friend!");
                                     return true;
                                 }else {
-                                    p.sendTitle("§c§lFailed!","§c§lPlease try again later!");
+                                    p.sendMessage("§c§lFailed!"+"§c§lPlease try again later!");
                                     return false;
                                 }
                             }
@@ -180,7 +180,7 @@ public final class RECALL extends JavaPlugin {
                 if(loc.get(p) != null){
                     loc.remove(p);
                     Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ ChatColor.BLUE.BOLD.UNDERLINE + p.getName() +"§a§l has closed the [[RECALL]]!");
-                    p.sendTitle("§c§lClose it Successfully!","§c§l You can try it later!");
+                    p.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
                 }else{
                     sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] is closed!");
                 }
