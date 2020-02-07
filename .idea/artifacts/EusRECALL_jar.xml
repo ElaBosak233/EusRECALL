@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="EusRECALL:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/EusRECALL_jar</output-path>
+    <root id="archive" name="EusRECALL.jar">
+      <element id="module-output" name="EusRECALL" />
+    </root>
+  </artifact>
+</component>

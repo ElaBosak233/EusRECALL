@@ -1,0 +1,24 @@
+name: RECALL
+version: ${project.version}
+main: cc.eumc.recall.RECALL
+api-version: 1.13
+authors: [ElaBosak233]
+description: Call your friends together quickly !
+website: https://elabosak233.github.io
+
+commands:
+  recall:
+    description: Spend money to enable [[RECALL]]
+    usage: 使用 /recall 召集玩家 [仅玩家可使用]
+    permission: RECALL.recall
+    permission-message: You don't have permission to use [[RECALL]]
+  rccancel:
+    description: Cancel your [[RECALL]]
+    usage: 使用 /rccancel 取消[[RECALL]]
+    permission: RECALL.rccancel
+    permission-message: You don't have permission to use /rccancel
+  rcaccept:
+    description: Accept others [[RECALL]]
+    usage: 使用 /rcaccept [Player] 接受指定玩家的[[RECALL]]
+    permission: RECALL.rcaccept
+    permission-message: You don't have permission to use /rcaccept
