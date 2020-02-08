@@ -138,6 +138,7 @@ public final class RECALL extends JavaPlugin {
                     sender.sendMessage("§e§l[[RECALL]]: Use /rcaccept [PlayerName] to accept!");
                 }else{
                     if(args.length == 1){
+                        //设置目标玩家target（args[1]即输入的玩家名）
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target != null){
                             //玩家在线
@@ -165,7 +166,7 @@ public final class RECALL extends JavaPlugin {
                     }else{
                         sender.sendMessage("§9§l[[RECALL]]: Too many arguments!");
                     }
-                    //设置目标玩家target
+
                 }
             }else{
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
@@ -181,8 +182,10 @@ public final class RECALL extends JavaPlugin {
                     loc.remove(p);
                     Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ ChatColor.BLUE.BOLD.UNDERLINE + p.getName() +"§a§l has closed the [[RECALL]]!");
                     p.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
+                    return true;
                 }else{
                     sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] is closed!");
+                    return false;
                 }
             }else {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
