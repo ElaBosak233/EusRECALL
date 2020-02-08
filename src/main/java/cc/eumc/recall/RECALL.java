@@ -187,9 +187,10 @@ public final class RECALL extends JavaPlugin {
                                         } catch (InterruptedException e) {
                                             //空
                                         }
+                                        p.teleport(loc.get(target));
                                     }
                                 });
-                                p.teleport(loc.get(target));
+
                                 Location now = p.getLocation();
                                 if(back != now){
                                     p.sendMessage("§e§lSucceed! "+"§e§lJoin your friend!");
