@@ -9,3 +9,4 @@ RECALL:
 ACCEPT:
   tptime: 3000
   #The time of wait for teleporting to the player who starts [[RECALL]].
+  #It can't work

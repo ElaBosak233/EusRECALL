@@ -183,17 +183,18 @@ public final class RECALL extends JavaPlugin {
                                 Location back = p.getLocation();
                                 p.sendMessage("§e§lTeleporting "+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
                                 //建议添加传送计时
-                                Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(getConfig().getInt("ACCEPT.tptime"));
-                                        } catch (InterruptedException e) {
-                                            //空
-                                        }
-                                        p.teleport(loc.get(target));
-                                    }
-                                });
+//                                Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+//                                            Thread.sleep(getConfig().getInt("ACCEPT.tptime"));
+//                                        } catch (InterruptedException e) {
+//                                            //空
+//                                        }
+//                                        p.teleport(loc.get(target));
+//                                    }
+//                                });
+                                p.teleport(loc.get(target));
                                 Location now = p.getLocation();
                                 if(back != now){
                                     p.sendMessage("§e§lSucceed! "+"§e§lJoin your friend!");
