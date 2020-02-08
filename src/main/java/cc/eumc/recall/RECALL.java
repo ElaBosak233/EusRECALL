@@ -94,7 +94,7 @@ public final class RECALL extends JavaPlugin {
         Player p = (Player) sender;
 
         //配置命令/recall
-        if (command.getName().equalsIgnoreCase("recall")) {
+        if (command.getName().equalsIgnoreCase("rc")) {
             if (sender instanceof Player) {
                 //判断是不是玩家
                 if (args.length > 0) {
@@ -117,16 +117,16 @@ public final class RECALL extends JavaPlugin {
                             Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
                                 @Override
                                 public void run() {
-                                    sender.sendMessage("§a§l[[RECALL]]: Starting the timer...");
+                                    sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
                                     try {
                                         Thread.sleep(getConfig().getInt("RECALL.cd"));
                                     } catch (InterruptedException e) {
                                         //空
                                     }
                                     if(loc.get(p) !=null ){
-                                        sender.sendMessage("§a§l[[RECALL]]: Timeout");
+                                        sender.sendMessage("§2§l[[RECALL]]: Timeout");
                                         loc.remove(p);
-                                        Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ChatColor.RED.BOLD.UNDERLINE+p.getPlayer().getName()+"§c§l§n's "+"§a§l[[RECALL]] has been closed by System!");
+                                        Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ChatColor.RED.BOLD.UNDERLINE+p.getName()+"§c§l§n's "+"§2§l[[RECALL]] has been closed by System!");
                                     }
 
                                 }
@@ -165,7 +165,7 @@ public final class RECALL extends JavaPlugin {
                                 return true;
                             }else{
                                 Location back = p.getLocation();
-                                p.sendMessage("§e§lTeleporting"+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
+                                p.sendMessage("§e§lTeleporting "+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
                                 //传送计时
                                 Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
                                     @Override
@@ -180,10 +180,10 @@ public final class RECALL extends JavaPlugin {
                                 p.teleport(loc.get(target));
                                 Location now = p.getLocation();
                                 if(back != now){
-                                    p.sendMessage("§e§lSucceed!"+"§e§lJoin your friend!");
+                                    p.sendMessage("§e§lSucceed! "+"§e§lJoin your friend!");
                                     return true;
                                 }else {
-                                    p.sendMessage("§c§lFailed!"+"§c§lPlease try again later!");
+                                    p.sendMessage("§c§lFailed! "+"§c§lPlease try again later!");
                                     return true;
                                 }
                             }
@@ -209,7 +209,7 @@ public final class RECALL extends JavaPlugin {
                 if(loc.get(p) != null){
                     loc.remove(p);
                     Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ ChatColor.BLUE.BOLD.UNDERLINE + p.getName() +"§a§l has closed the [[RECALL]]!");
-                    p.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
+                    sender.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
                     return true;
                 }else{
                     sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] isn't started!");
@@ -219,6 +219,20 @@ public final class RECALL extends JavaPlugin {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
                 return false;
             }
+        }
+
+        if(command.getName().equalsIgnoreCase("rchelp")){
+            sender.sendMessage("--------------RECALL HELP---------------");
+            sender.sendMessage("./rc Spend "+getConfig().getInt("RECALL.cost")+" starting [[RECALL]].");
+            sender.sendMessage("./rcaccept [Playername] Accept a player's [[RECALL]].");
+            sender.sendMessage("./rccancel Cancel your [[RECALL]] request.");
+            sender.sendMessage("./rchelp Read [[RECALL]] help");
+            sender.sendMessage("-----------------------------------------");
+            sender.sendMessage("------------DEVELOPMENT TEAM-------------");
+            sender.sendMessage("ElaBosak233 ------------------- Developer");
+            sender.sendMessage("Alan_Richard --------------- Code Checker");
+            sender.sendMessage("-----------------------------------------");
+            return true;
         }
 
         return true;
