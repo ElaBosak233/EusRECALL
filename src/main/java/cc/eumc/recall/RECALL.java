@@ -89,11 +89,11 @@ public final class RECALL extends JavaPlugin {
     }
 
 
-    //接下来是命令部分，控制/recall
+    //接下来是命令部分，控制RECALL
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
 
-        //配置命令/recall
+        //配置命令/rc
         if (command.getName().equalsIgnoreCase("rc")) {
             if (sender instanceof Player) {
                 //判断是不是玩家
@@ -221,6 +221,7 @@ public final class RECALL extends JavaPlugin {
             }
         }
 
+        //配置命令/rchelp
         if(command.getName().equalsIgnoreCase("rchelp")){
             sender.sendMessage("--------------RECALL HELP---------------");
             sender.sendMessage("./rc Spend "+getConfig().getInt("RECALL.cost")+" starting [[RECALL]].");

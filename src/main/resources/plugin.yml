@@ -7,18 +7,23 @@ description: Call your friends together quickly !
 website: https://elabosak233.github.io
 
 commands:
-  recall:
+  rc:
     description: Spend money to enable [[RECALL]]
-    usage: 使用 /recall 召集玩家 [仅玩家可使用]
-    permission: RECALL.recall
+    usage: /rc
+    permission: RECALL.rc
     permission-message: You don't have permission to use [[RECALL]]
   rccancel:
     description: Cancel your [[RECALL]]
-    usage: 使用 /rccancel 取消[[RECALL]]
+    usage: /rccancel
     permission: RECALL.rccancel
     permission-message: You don't have permission to use /rccancel
   rcaccept:
     description: Accept others [[RECALL]]
-    usage: 使用 /rcaccept [Player] 接受指定玩家的[[RECALL]]
+    usage: /rcaccept [Playername]
     permission: RECALL.rcaccept
     permission-message: You don't have permission to use /rcaccept
+  rchelp:
+    description: Read [[RECALL]] help
+    usage: /rchelp
+    permission: RECALL.rchelp
+    permission-message: You don't have permission to use /rchelp
