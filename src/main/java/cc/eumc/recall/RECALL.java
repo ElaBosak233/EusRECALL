@@ -124,7 +124,7 @@ public final class RECALL extends JavaPlugin {
                                 sender.sendMessage("§e§l[[RECALL]]: You cost "+ChatColor.GREEN.UNDERLINE.BOLD+cost+" to start [[RECALL]]!");
                                 Bukkit.broadcastMessage("§b§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§b§lto accept!");
                                 sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getX())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getY())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getZ())+" , "+"§a§l Please wait for your friend~");
-                                done = Calendar.MINUTE;
+
                                 //异步线程开始计时
                                 Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
                                     @Override
@@ -139,6 +139,7 @@ public final class RECALL extends JavaPlugin {
                                             sender.sendMessage("§2§l[[RECALL]]: Timeout");
                                             loc.remove(p);
                                             Bukkit.broadcastMessage("§a§l[[RECALL]]: [[RECALL]] of "+ChatColor.RED.BOLD.UNDERLINE+p.getName()+"§2§l has been closed by System!");
+                                            done = Calendar.MINUTE;
                                         }
 
                                     }
@@ -227,6 +228,7 @@ public final class RECALL extends JavaPlugin {
                     loc.remove(p);
                     Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ ChatColor.BLUE.BOLD.UNDERLINE + p.getName() +"§a§l has closed the [[RECALL]]!");
                     sender.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
+                    done = Calendar.MINUTE;
                     return true;
                 }else{
                     sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] isn't started!");
