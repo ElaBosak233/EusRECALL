@@ -1,3 +1,7 @@
 RECALL:
   cost: 200
   #You need cost money to use [[RECALL]].You can customize this value.
+  cd: 60000
+
+ACCEPT:
+  tptime: 3000

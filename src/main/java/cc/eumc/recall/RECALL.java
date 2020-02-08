@@ -10,6 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+
+
 public final class RECALL extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -31,7 +35,7 @@ public final class RECALL extends JavaPlugin {
 
     public Map<Player,Location> loc = new HashMap<Player, Location>();
 
-    int done = 0;
+
 
     @Override
     public void onEnable() {
@@ -106,8 +110,8 @@ public final class RECALL extends JavaPlugin {
                             econ.withdrawPlayer(p,cost);
                             loc.put(p,p.getLocation()); //记录玩家名、坐标
                             sender.sendMessage("§e§l[[RECALL]]: You cost "+ChatColor.GREEN.UNDERLINE.BOLD+cost+" to start [[RECALL]]!");
-                            Bukkit.broadcastMessage("§9§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§9§lto accept!");
-                            sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getWorld()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getX()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getY()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getZ()+","+"§9§l Please wait for your friend~");
+                            Bukkit.broadcastMessage("§b§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§b§lto accept!");
+                            sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getWorld()+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getX())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getY())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getZ())+","+"§a§l Please wait for your friend~");
                             //
                             //异步线程开始计时
                             Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
@@ -115,14 +119,14 @@ public final class RECALL extends JavaPlugin {
                                 public void run() {
                                     sender.sendMessage("§a§l[[RECALL]]: Starting the timer...");
                                     try {
-                                        Thread.sleep(60000);
+                                        Thread.sleep(getConfig().getInt("RECALL.cd"));
                                     } catch (InterruptedException e) {
                                         //空
                                     }
-                                    if(!(command.getName().equalsIgnoreCase("rccancel"))){
+                                    if(loc.get(p) !=null ){
                                         sender.sendMessage("§a§l[[RECALL]]: Timeout");
                                         loc.remove(p);
-                                        sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] has been closed by System!");
+                                        Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ChatColor.RED.BOLD.UNDERLINE+p.getPlayer().getName()+"§c§l§n's "+"§a§l[[RECALL]] has been closed by System!");
                                     }
 
                                 }
@@ -141,7 +145,7 @@ public final class RECALL extends JavaPlugin {
                 }
             }else {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return true;
+                return false;
             }
         }
 
@@ -153,7 +157,7 @@ public final class RECALL extends JavaPlugin {
                 }else{
                     if(args.length == 1){
                         //设置目标玩家target（args[1]即输入的玩家名）
-                        Player target = Bukkit.getPlayer(args[1]);
+                        Player target = Bukkit.getPlayer(args[0]);
                         if(target != null){
                             //玩家在线
                             if(loc.get(target) == null){
@@ -162,6 +166,17 @@ public final class RECALL extends JavaPlugin {
                             }else{
                                 Location back = p.getLocation();
                                 p.sendMessage("§e§lTeleporting"+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
+                                //传送计时
+                                Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(getConfig().getInt("ACCEPT.tptime"));
+                                        } catch (InterruptedException e) {
+                                            //空
+                                        }
+                                    }
+                                });
                                 p.teleport(loc.get(target));
                                 Location now = p.getLocation();
                                 if(back != now){
@@ -184,7 +199,7 @@ public final class RECALL extends JavaPlugin {
                 }
             }else{
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return true;
+                return false;
             }
         }
 
@@ -202,11 +217,11 @@ public final class RECALL extends JavaPlugin {
                 }
             }else {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
 }
