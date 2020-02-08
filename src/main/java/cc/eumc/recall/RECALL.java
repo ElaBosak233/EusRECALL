@@ -98,7 +98,7 @@ public final class RECALL extends JavaPlugin {
                     int now = Calendar.MINUTE; //获取当前时间
                     int need = Math.abs(now - done); //求上一次完成和现在时间的差值的绝对值
                     //判断时间差值是否≥1
-                    if(need >= 1){
+                    if(need > 1){
                         double money = econ.getBalance(p);
                         int cost = getConfig().getInt("RECALL.cost");
                         //判断金钱
@@ -110,7 +110,7 @@ public final class RECALL extends JavaPlugin {
                             done = Calendar.MINUTE; //输入指令并运行的时间
                             int now1 = Calendar.MINUTE;
                             int need1 = Math.abs(now1 - done);
-                            if(need1 >= 1){
+                            if (need1 >= 1){
                                 loc.remove(p);
                             }
                             return true;
