@@ -1,5 +1,6 @@
 package cc.eumc.recall;
 
+import com.sun.org.apache.regexp.internal.RE;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -27,7 +28,8 @@ public final class RECALL extends JavaPlugin {
     private static Permission perms = null;
     private static Chat chat = null;
 
-    public Map<Player,Location> loc = new HashMap<>();
+
+    public Map<Player,Location> loc = new HashMap<Player, Location>();
 
     int done = 0;
 
@@ -85,54 +87,66 @@ public final class RECALL extends JavaPlugin {
 
     //接下来是命令部分，控制/recall
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player p = (Player) sender;
+
         //配置命令/recall
         if (command.getName().equalsIgnoreCase("recall")) {
             if (sender instanceof Player) {
                 //判断是不是玩家
-                Player p = (Player) sender;
                 if (args.length > 0) {
                     //判断命令长短
                     sender.sendMessage("§9§l[[RECALL]]: Too many arguments!");
                     return false;
                 } else {
-                    int now = Calendar.MINUTE; //获取当前时间
-                    int need = Math.abs(now - done); //求上一次完成和现在时间的差值的绝对值
-                    //判断时间差值是否≥1
-                    if(need > 1){
+                    if(loc.get(p) == null){
                         double money = econ.getBalance(p);
                         int cost = getConfig().getInt("RECALL.cost");
                         //判断金钱
                         if(money >= cost){
                             econ.withdrawPlayer(p,cost);
                             loc.put(p,p.getLocation()); //记录玩家名、坐标
+                            sender.sendMessage("§e§l[[RECALL]]: You cost "+ChatColor.GREEN.UNDERLINE.BOLD+cost+" to start [[RECALL]]!");
                             Bukkit.broadcastMessage("§9§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§9§lto accept!");
-                            sender.sendMessage("§9§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+loc+"§9§l Please wait for your friend~");
-                            done = Calendar.MINUTE; //输入指令并运行的时间
-                            int now1 = Calendar.MINUTE;
-                            int need1 = Math.abs(now1 - done);
-                            if (need1 >= 1){
-                                loc.remove(p);
-                            }
+                            sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getWorld()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getX()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getY()+","+ChatColor.RED.BOLD.UNDERLINE+p.getLocation().getZ()+","+"§9§l Please wait for your friend~");
+                            //
+                            //异步线程开始计时
+                            Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
+                                @Override
+                                public void run() {
+                                    sender.sendMessage("§a§l[[RECALL]]: Starting the timer...");
+                                    try {
+                                        Thread.sleep(60000);
+                                    } catch (InterruptedException e) {
+                                        //空
+                                    }
+                                    if(!(command.getName().equalsIgnoreCase("rccancel"))){
+                                        sender.sendMessage("§a§l[[RECALL]]: Timeout");
+                                        loc.remove(p);
+                                        sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] has been closed by System!");
+                                    }
+
+                                }
+                            });
+
                             return true;
                         }else{
                             sender.sendMessage("§9§l[[RECALL]]: You don't have enough money to use [[RECALL]]!");
-                            return false;
+                            return true;
                         }
                     }else{
                         sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
-                        return false;
+                        return true;
                     }
 
                 }
             }else {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return false;
+                return true;
             }
         }
 
         //配置命令/rcaccept
         if(command.getName().equalsIgnoreCase("rcaccept")){
-            Player p = (Player) sender;
             if (sender instanceof Player) {
                 if(args.length == 0){
                     sender.sendMessage("§e§l[[RECALL]]: Use /rcaccept [PlayerName] to accept!");
@@ -144,7 +158,7 @@ public final class RECALL extends JavaPlugin {
                             //玩家在线
                             if(loc.get(target) == null){
                                 sender.sendMessage("§e§l[[RECALL]]: Player didn't use [[RECALL]]!");
-                                return false;
+                                return true;
                             }else{
                                 Location back = p.getLocation();
                                 p.sendMessage("§e§lTeleporting"+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
@@ -155,13 +169,13 @@ public final class RECALL extends JavaPlugin {
                                     return true;
                                 }else {
                                     p.sendMessage("§c§lFailed!"+"§c§lPlease try again later!");
-                                    return false;
+                                    return true;
                                 }
                             }
                         }else{
                             //玩家不在线
                             sender.sendMessage("§e§l[[RECALL]]: Player is not online!");
-                            return false;
+                            return true;
                         }
                     }else{
                         sender.sendMessage("§9§l[[RECALL]]: Too many arguments!");
@@ -170,13 +184,12 @@ public final class RECALL extends JavaPlugin {
                 }
             }else{
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return false;
+                return true;
             }
         }
 
         //配置命令/rccancel
         if(command.getName().equalsIgnoreCase("rccancel")){
-            Player p = (Player) sender;
             if (sender instanceof Player) {
                 if(loc.get(p) != null){
                     loc.remove(p);
@@ -184,12 +197,12 @@ public final class RECALL extends JavaPlugin {
                     p.sendMessage("§c§lClose it Successfully!"+"§c§l You can try it later!");
                     return true;
                 }else{
-                    sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] is closed!");
-                    return false;
+                    sender.sendMessage("§a§l[[RECALL]]: Your [[RECALL]] isn't started!");
+                    return true;
                 }
             }else {
                 sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
-                return false;
+                return true;
             }
         }
 
