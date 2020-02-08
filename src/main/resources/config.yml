@@ -5,7 +5,7 @@ RECALL:
   #Duration of a single [[RECALL]].
   cd: 1
   #Restart the cooldown of [[RECALL]].
+  #It can't work
 ACCEPT:
   tptime: 3000
   #The time of wait for teleporting to the player who starts [[RECALL]].
-  #Now it is can't use

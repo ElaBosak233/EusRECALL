@@ -111,10 +111,10 @@ public final class RECALL extends JavaPlugin {
                     if(loc.get(p) == null){
                         int now = Calendar.MINUTE;
                         //RECALL.cd负责重新开启的时间
-                        if(Math.abs(now - done) <= getConfig().getInt("RECALL.cd")){
-                            sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
-                            return false;
-                        }else{
+//                        if(Math.abs(now - done) <= getConfig().getInt("RECALL.cd")){
+//                            sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
+//                            return false;
+//                        }else{
                             double money = econ.getBalance(p);
                             int cost = getConfig().getInt("RECALL.cost");
                             //判断金钱
@@ -139,7 +139,7 @@ public final class RECALL extends JavaPlugin {
                                             sender.sendMessage("§2§l[[RECALL]]: Timeout");
                                             loc.remove(p);
                                             Bukkit.broadcastMessage("§a§l[[RECALL]]: [[RECALL]] of "+ChatColor.RED.BOLD.UNDERLINE+p.getName()+"§2§l has been closed by System!");
-                                            done = Calendar.MINUTE;
+
                                         }
 
                                     }
@@ -151,7 +151,7 @@ public final class RECALL extends JavaPlugin {
                                 return false;
                         }
 
-                        }
+//                        }
                     }else{
                         sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
                         return false;
@@ -183,14 +183,24 @@ public final class RECALL extends JavaPlugin {
                                 Location back = p.getLocation();
                                 p.sendMessage("§e§lTeleporting "+"§e§lTo "+ChatColor.AQUA.UNDERLINE + target.getName());
                                 //建议添加传送计时
-                                p.teleport(loc.get(target));
+                                Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(getConfig().getInt("ACCEPT.tptime"));
+                                        } catch (InterruptedException e) {
+                                            //空
+                                        }
+                                        p.teleport(loc.get(target));
+                                    }
+                                });
                                 Location now = p.getLocation();
                                 if(back != now){
                                     p.sendMessage("§e§lSucceed! "+"§e§lJoin your friend!");
                                     return true;
                                 }else {
                                     p.sendMessage("§c§lFailed! "+"§c§lPlease try again later!");
-                                    return true;
+                                    return false;
                                 }
                             }
                         }else{
