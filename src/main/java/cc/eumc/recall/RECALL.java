@@ -96,12 +96,13 @@ public final class RECALL extends JavaPlugin {
 
     //接下来是命令部分，控制RECALL
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Player p = (Player) sender;
+
 
         //配置命令/rc
         if (command.getName().equalsIgnoreCase("rc")) {
             if (sender instanceof Player) {
                 //判断是不是玩家
+                Player p = (Player) sender;
                 if (args.length > 0) {
                     //判断命令长短
                     sender.sendMessage("§9§l[[RECALL]]: Too many arguments!");
@@ -145,7 +146,7 @@ public final class RECALL extends JavaPlugin {
                                 return true;
                             }else{
                                 sender.sendMessage("§9§l[[RECALL]]: You don't have enough money to use [[RECALL]]!");
-                                return true;
+                                return false;
                         }
 
                         }
@@ -164,6 +165,7 @@ public final class RECALL extends JavaPlugin {
         //配置命令/rcaccept
         if(command.getName().equalsIgnoreCase("rcaccept")){
             if (sender instanceof Player) {
+                Player p = (Player) sender;
                 if(args.length == 0){
                     sender.sendMessage("§e§l[[RECALL]]: Use /rcaccept [PlayerName] to accept!");
                 }else{
@@ -219,6 +221,7 @@ public final class RECALL extends JavaPlugin {
         //配置命令/rccancel
         if(command.getName().equalsIgnoreCase("rccancel")){
             if (sender instanceof Player) {
+                Player p = (Player) sender;
                 if(loc.get(p) != null){
                     loc.remove(p);
                     Bukkit.broadcastMessage("§a§l[[RECALL]]: "+ ChatColor.BLUE.BOLD.UNDERLINE + p.getName() +"§a§l has closed the [[RECALL]]!");
@@ -236,17 +239,24 @@ public final class RECALL extends JavaPlugin {
 
         //配置命令/rchelp
         if(command.getName().equalsIgnoreCase("rchelp")){
-            sender.sendMessage("§9§l--------------RECALL HELP---------------");
-            sender.sendMessage("§c./rc Spend "+getConfig().getInt("RECALL.cost")+" starting [[RECALL]].");
-            sender.sendMessage("§c./rcaccept [Playername] Accept a player's [[RECALL]].");
-            sender.sendMessage("§c./rccancel Cancel your [[RECALL]] request.");
-            sender.sendMessage("§c./rchelp Read [[RECALL]] help");
-            sender.sendMessage("§9§l-----------------------------------------");
-            sender.sendMessage("§9§l------------DEVELOPMENT TEAM-------------");
-            sender.sendMessage("§aElaBosak233 ······················· Developer");
-            sender.sendMessage("§aAlan_Richard ··················· Code Checker");
-            sender.sendMessage("§9§l-----------------------------------------");
-            return true;
+            if(sender instanceof Player){
+                Player p = (Player) sender;
+                sender.sendMessage("§9§l--------------RECALL HELP---------------");
+                sender.sendMessage("§c./rc Spend "+getConfig().getInt("RECALL.cost")+" starting [[RECALL]].");
+                sender.sendMessage("§c./rcaccept [Playername] Accept a player's [[RECALL]].");
+                sender.sendMessage("§c./rccancel Cancel your [[RECALL]] request.");
+                sender.sendMessage("§c./rchelp Read [[RECALL]] help");
+                sender.sendMessage("§9§l-----------------------------------------");
+                sender.sendMessage("§9§l------------DEVELOPMENT TEAM-------------");
+                sender.sendMessage("§aElaBosak233 ······················· Developer");
+                sender.sendMessage("§aAlan_Richard ··················· Code Checker");
+                sender.sendMessage("§9§l-----------------------------------------");
+                return true;
+            }else{
+                sender.sendMessage("§4§l[[RECALL]]: ONLY Player can use this command!");
+                return false;
+            }
+
         }
 
         return true;
