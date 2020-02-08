@@ -1,7 +1,10 @@
 RECALL:
   cost: 200
-  #You need cost money to use [[RECALL]].You can customize this value.
-  cd: 60000
-
+  #You need cost money to use [[RECALL]].
+  duration: 60000
+  #Duration of a single [[RECALL]].
+  cd: 1
+  #Restart the cooldown of [[RECALL]].
 ACCEPT:
   tptime: 3000
+  #The time of wait for teleporting to the player who starts [[RECALL]].

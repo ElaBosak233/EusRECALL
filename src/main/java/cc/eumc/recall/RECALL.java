@@ -110,7 +110,8 @@ public final class RECALL extends JavaPlugin {
                 } else {
                     if(loc.get(p) == null){
                         int now = Calendar.MINUTE;
-                        if(Math.abs(now - done) <= 1){
+                        //RECALL.cd负责重新开启的时间
+                        if(Math.abs(now - done) <= getConfig().getInt("RECALL.cd")){
                             sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
                             return false;
                         }else{
@@ -130,7 +131,7 @@ public final class RECALL extends JavaPlugin {
                                     public void run() {
                                         sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
                                         try {
-                                            Thread.sleep(getConfig().getInt("RECALL.cd"));
+                                            Thread.sleep(getConfig().getInt("RECALL.duration"));
                                         } catch (InterruptedException e) {
                                             //空
                                         }
