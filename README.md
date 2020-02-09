@@ -11,17 +11,20 @@
 >5. **EusRECALL** uses Apache2.0 License to open source.
 ## · Command
 >* /rc --- The main command in **EusRECALL** , you can call your players in this way . **But** it will cost your money , also it will set up a timer , when time is up , request will be closed , you can customize them in **"Config.yml"**.By the way , don't type this command **too many times** , server won't let it start !
->(```)
+
+>**Timer Example**
+```
 Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
-                                        try {
-                                            Thread.sleep(getConfig().getInt("RECALL.duration"));
-                                        } catch (InterruptedException e) {
-                                            //空
-                                        }
-(```)
+       @Override
+       public void run() {
+       sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
+       try {
+            Thread.sleep(getConfig().getInt("RECALL.duration"));
+            //RECALL.duration form config.yml
+           } catch (InterruptedException e) {
+           //Null
+           }
+```
 
 >![rc](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rc.PNG "rc")
 >![Timeout](https://github.com/ElaBosak233/EusRECALL/raw/master/img/Timeout.PNG "Timeout")
