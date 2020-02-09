@@ -23,7 +23,7 @@ Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
             //RECALL.duration form config.yml
            } catch (InterruptedException e) {
            //Null
-           }
+}
 ```
 
 >![rc](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rc.PNG "rc")
