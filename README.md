@@ -28,20 +28,23 @@ Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
 }
 ```
 
->![rc](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rc.PNG "rc")
->![Timeout](https://github.com/ElaBosak233/EusRECALL/raw/master/img/Timeout.PNG "Timeout")
->![Too-many-times](https://github.com/ElaBosak233/EusRECALL/raw/master/img/too%20many%20times.PNG "Too Many times!")
+>![rc](https://sm.ms/image/zjOkYbuRN2rSBIg "rc")
+>![Timeout](https://sm.ms/image/TQhH9zCWZ7Jibam "Timeout")
+>![Too-many-times](https://sm.ms/image/jZLq41wzGBVrdux "Too Many times!")
 >* /rcaccept [PlayerName] --- Accept a player's "RECALL" request . **But** , please remember the **[PlayerName]**
 
->![rcaccept-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept-pn.PNG "rcaccept-pn")
->![rcaccept-without-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept.PNG "rcaccept-without-pn")
+>![rcaccept-pn](https://sm.ms/image/fHv2Eb6JaMGmSzP "rcaccept-pn")
+>![rcaccept-without-pn](https://sm.ms/image/f7zoCB1cJmZTePq "rcaccept-without-pn")
+>* /rccancel --- Camcel your request
+
+![rccancel.PNG](https://i.loli.net/2020/02/09/EIRj2oSFWfGdB1b.png)
 >* /rchelp --- Get **EusRECALL** help
 
->![rchelp](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rchelp.PNG "rchelp")
+>![rchelp](https://sm.ms/image/LvSr4uAmEVTo8xF "rchelp")
 ## · Console
 >Every Commands can not be used in server console , but it will only write a log .
 
->![console](https://github.com/ElaBosak233/EusRECALL/raw/master/img/server-start.PNG "console")
+>![console](https://sm.ms/image/nLo7brvjIUw9f6d "console")
 
 ## · Issues
 >If you find a bug in this plugin or make suggestions for this plugin, please feedback in Issues, thank you !
