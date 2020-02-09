@@ -35,7 +35,7 @@ Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
 
 >![rcaccept-pn.PNG](https://i.loli.net/2020/02/09/fHv2Eb6JaMGmSzP.png)
 >![rcaccept.PNG](https://i.loli.net/2020/02/09/f7zoCB1cJmZTePq.png)
->* /rccancel --- Camcel your request
+>* /rccancel --- Cancel your request
 
 ![rccancel.PNG](https://i.loli.net/2020/02/09/EIRj2oSFWfGdB1b.png)
 >* /rchelp --- Get **EusRECALL** help
