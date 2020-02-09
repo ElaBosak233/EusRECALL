@@ -50,8 +50,8 @@ Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
 >If you find a bug in this plugin or make suggestions for this plugin, please feedback in Issues, thank you !
 
 ## · Collaborators
-> 1. Leaves123
-> 2. ElaBosak233
+> 1. Leaves123 --- Code Check & Update
+> 2. ElaBosak233 --- Main Dev.
 
 ## · License
 >Apache 2.0 License
