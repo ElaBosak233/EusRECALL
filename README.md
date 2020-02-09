@@ -28,23 +28,23 @@ Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
 }
 ```
 
->![rc](https://sm.ms/image/zjOkYbuRN2rSBIg "rc")
->![Timeout](https://sm.ms/image/TQhH9zCWZ7Jibam "Timeout")
->![Too-many-times](https://sm.ms/image/jZLq41wzGBVrdux "Too Many times!")
+>![rc.PNG](https://i.loli.net/2020/02/09/zjOkYbuRN2rSBIg.png)
+>![Timeout.PNG](https://i.loli.net/2020/02/09/TQhH9zCWZ7Jibam.png)
+>![too many times.PNG](https://i.loli.net/2020/02/09/jZLq41wzGBVrdux.png)
 >* /rcaccept [PlayerName] --- Accept a player's "RECALL" request . **But** , please remember the **[PlayerName]**
 
->![rcaccept-pn](https://sm.ms/image/fHv2Eb6JaMGmSzP "rcaccept-pn")
->![rcaccept-without-pn](https://sm.ms/image/f7zoCB1cJmZTePq "rcaccept-without-pn")
+>![rcaccept-pn.PNG](https://i.loli.net/2020/02/09/fHv2Eb6JaMGmSzP.png)
+>![rcaccept.PNG](https://i.loli.net/2020/02/09/f7zoCB1cJmZTePq.png)
 >* /rccancel --- Camcel your request
 
 ![rccancel.PNG](https://i.loli.net/2020/02/09/EIRj2oSFWfGdB1b.png)
 >* /rchelp --- Get **EusRECALL** help
 
->![rchelp](https://sm.ms/image/LvSr4uAmEVTo8xF "rchelp")
+>![rchelp.PNG](https://i.loli.net/2020/02/09/LvSr4uAmEVTo8xF.png)
 ## · Console
 >Every Commands can not be used in server console , but it will only write a log .
 
->![console](https://sm.ms/image/nLo7brvjIUw9f6d "console")
+>![server-start.PNG](https://i.loli.net/2020/02/09/nLo7brvjIUw9f6d.png)
 
 ## · Issues
 >If you find a bug in this plugin or make suggestions for this plugin, please feedback in Issues, thank you !
