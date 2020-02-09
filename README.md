@@ -10,20 +10,20 @@
 ## · Command
 >* /rc --- The main command in **EusRECALL** , you can call your players in this way . **But** it will cost your money , also it will set up a timer , when time is up , request will be closed , you can customize them in **"Config.yml"**.By the way , don't type this command **too many times** , server won't let it start !
 
-![rc](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rc.PNG "rc")
-![Timeout](https://github.com/ElaBosak233/EusRECALL/raw/master/img/Timeout.PNG "Timeout")
-![Too-many-times](https://github.com/ElaBosak233/EusRECALL/raw/master/img/too%20many%20times.PNG "Too Many times!")
+>![rc](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rc.PNG "rc")
+>![Timeout](https://github.com/ElaBosak233/EusRECALL/raw/master/img/Timeout.PNG "Timeout")
+>![Too-many-times](https://github.com/ElaBosak233/EusRECALL/raw/master/img/too%20many%20times.PNG "Too Many times!")
 >* /rcaccept [PlayerName] --- Accept a player's "RECALL" request . **But** , please remember the **[PlayerName]**
 
-![rcaccept-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept-pn.PNG "rcaccept-pn")
-![rcaccept-without-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept.PNG "rcaccept-without-pn")
+>![rcaccept-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept-pn.PNG "rcaccept-pn")
+>![rcaccept-without-pn](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rcaccept.PNG "rcaccept-without-pn")
 >* /rchelp --- Get **EusRECALL** help
 
-![rchelp](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rchelp.PNG "rchelp")
+>![rchelp](https://github.com/ElaBosak233/EusRECALL/raw/master/img/rchelp.PNG "rchelp")
 ## · Console
 >Every Commands can not be used in server console , but it will only write a log .
 
-![console](https://github.com/ElaBosak233/EusRECALL/raw/master/img/server-start.PNG "console")
+>![console](https://github.com/ElaBosak233/EusRECALL/raw/master/img/server-start.PNG "console")
 
 ## · Issues
 >If you find a bug in this plugin or make suggestions for this plugin, please feedback in Issues, thank you !
