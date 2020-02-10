@@ -34,10 +34,10 @@ public final class RECALL extends JavaPlugin {
     private static Chat chat = null;
 
     int done = 0;
+    int DEFAULT_DURATION;
+    int COST_PER_MINUTE;
 
-
-
-    public Map<Player,Location> loc = new HashMap<Player, Location>();
+    public Map<Player,RecallEntry> loc = new HashMap<>();
     SimpleDateFormat df = new SimpleDateFormat("mm");
 
 
@@ -47,6 +47,10 @@ public final class RECALL extends JavaPlugin {
         // Plugin startup logic
         getServer().getConsoleSender().sendMessage(ChatColor.AQUA.UNDERLINE+"[[RECALL]] service has been started");
         saveDefaultConfig();
+        reloadConfig();
+
+        DEFAULT_DURATION = getConfig().getInt("RECALL.duration");
+        COST_PER_MINUTE = getConfig().getInt("RECALL.cost");
 
         if (!setupEconomy() ) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -103,7 +107,7 @@ public final class RECALL extends JavaPlugin {
             if (sender instanceof Player) {
                 //判断是不是玩家
                 Player p = (Player) sender;
-                if (args.length > 0) {
+                if (args.length > 1) {
                     //判断命令长短
                     sender.sendMessage("§9§l[[RECALL]]: Too many arguments!");
                     return false;
@@ -115,40 +119,45 @@ public final class RECALL extends JavaPlugin {
 //                            sender.sendMessage("§9§l[[RECALL]]: You can't use it too quickly!");
 //                            return false;
 //                        }else{
-                            double money = econ.getBalance(p);
-                            int cost = getConfig().getInt("RECALL.cost");
-                            //判断金钱
-                            if(money >= cost){
-                                econ.withdrawPlayer(p,cost);
-                                loc.put(p,p.getLocation()); //记录玩家名、坐标
-                                sender.sendMessage("§e§l[[RECALL]]: You cost "+ChatColor.GREEN.UNDERLINE.BOLD+cost+" to start [[RECALL]]!");
-                                Bukkit.broadcastMessage("§b§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§b§lto accept!");
-                                sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getX())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getY())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getZ())+" , "+"§a§l Please wait for your friend~");
+                        int time;
+                        if (args.length == 1) {
+                            time = Integer.parseInt(args[1]); // expire time
+                        } else {
+                            time = DEFAULT_DURATION;
+                        }
 
-                                //异步线程开始计时
-                                Bukkit.getScheduler().runTaskAsynchronously(this , new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
-                                        try {
-                                            Thread.sleep(getConfig().getInt("RECALL.duration"));
-                                        } catch (InterruptedException e) {
-                                            //空
-                                        }
-                                        if(loc.get(p) !=null ){
-                                            sender.sendMessage("§2§l[[RECALL]]: Timeout");
-                                            loc.remove(p);
-                                            Bukkit.broadcastMessage("§a§l[[RECALL]]: [[RECALL]] of "+ChatColor.RED.BOLD.UNDERLINE+p.getName()+"§2§l has been closed by System!");
+                        double money = econ.getBalance(p);
+                        int cost = COST_PER_MINUTE * time;
+                        // TODO Confirmation
+                        //判断金钱
+                        if (money >= cost){
+                            econ.withdrawPlayer(p,cost);
+                            loc.put(p, new RecallEntry(p.getLocation(), time)); //记录玩家名、坐标
+                            sender.sendMessage("§e§l[[RECALL]]: You spent "+ChatColor.GREEN.UNDERLINE.BOLD+cost+" to start [[RECALL]]!");
+                            Bukkit.broadcastMessage("§b§l[[RECALL]] Request:" + " "+ ChatColor.AQUA.UNDERLINE + p.getName() + "§a§l is starting the [[RECALL]]!"+"§c§l§n Use /rcaccept " +ChatColor.RED.UNDERLINE.BOLD +p.getName() + " " + "§b§lto accept!");
+                            sender.sendMessage("§e§lYour [[RECALL]] location is "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getX())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getY())+" , "+ChatColor.RED.BOLD.UNDERLINE+Math.rint(p.getLocation().getZ())+" , "+"§a§l Please wait for your friend~");
 
-                                        }
+                            sender.sendMessage("§d§l[[RECALL]]: Starting the timer...");
 
+                            Bukkit.getScheduler().runTaskLater(this , new Runnable() {
+                                @Override
+                                public void run() {
+                                    RecallEntry recallEntry;
+                                    if ((recallEntry = loc.get(p)) != null ){
+                                        sender.sendMessage("§2§l[[RECALL]]: Your [[RECALL]] is now expired. There were " + recallEntry.getAccepted() + " player" + (recallEntry.getAccepted()>1?"s":"") + " accepted your [[RECALL]]");
+                                        loc.remove(p);
+                                        Bukkit.broadcastMessage("§a§l[[RECALL]]: [[RECALL]] by "+ChatColor.RED.BOLD.UNDERLINE+p.getName()+"§2§l is now expired!");
                                     }
-                                });
 
-                                return true;
-                            }else{
-                                sender.sendMessage("§9§l[[RECALL]]: You don't have enough money to use [[RECALL]]!");
-                                return false;
+                                }
+                            }, time);
+
+                            return true;
+                        }
+                        else {
+                            sender.sendMessage("§9§l[[RECALL]]: You don't have enough money to use [[RECALL]]!");
+                            sender.sendMessage("§9§l[[RECALL]]: Cost for a [[RECALL]] of " + time + " min: " + cost);
+                            return false;
                         }
 
 //                        }
@@ -194,7 +203,8 @@ public final class RECALL extends JavaPlugin {
 //                                        p.teleport(loc.get(target));
 //                                    }
 //                                });
-                                p.teleport(loc.get(target));
+                                loc.get(target).doTeleport(p);
+
                                 Location now = p.getLocation();
                                 if(back != now){
                                     p.sendMessage("§e§lSucceed! "+"§e§lJoin your friend!");
